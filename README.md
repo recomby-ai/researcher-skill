@@ -1,6 +1,8 @@
 # Researcher — ReAct Deep Search Skill
 
-A single-file skill for Claude Code that turns search into investigation.
+Claude is already great at reasoning. But when it searches the web, it searches once, reads the snippets, and gives you an answer. That's breadth — not depth. It's what any search engine does.
+
+This skill is a single prompt that changes how Claude searches. Instead of one broad sweep, Claude now follows leads: each search round is driven by what the previous round discovered, chasing citations forward and backward through the academic literature until it hits primary sources. Same Claude, deeper search.
 
 ## Two Core Ideas
 
