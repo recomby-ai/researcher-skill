@@ -15,6 +15,20 @@ argument-hint: "topic or question to investigate"
 
 Search deep, not wide. Each round follows leads from the last.
 
+## Why This Works
+
+Five principles behind systematic investigation:
+
+1. **You don't know what you don't know.** The first round must go broad — use multiple synonym groups, scan different sources. You cannot follow leads you haven't found yet.
+
+2. **Every result contains leads.** A search result is not an answer — it's a starting point. Every name, number, claim, and citation in it is a thread to pull. The value is in what you do AFTER reading the result.
+
+3. **Secondary sources distort.** News articles, blog posts, and summaries introduce errors. The only way to know what a study actually found is to read the study. Chase every important claim back to its primary source.
+
+4. **Missing counter-evidence is suspicious.** If you only find supporting evidence, you haven't searched hard enough. Actively search for criticism, contradictions, failed replications, and opposing viewpoints.
+
+5. **Saturation means done.** When new searches stop producing new concepts, methods, or names — you've covered the space. This is the only reliable stop signal, not a fixed number of rounds.
+
 ## The Loop
 
 Repeat this cycle until the stop conditions are met:
