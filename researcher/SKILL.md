@@ -75,7 +75,26 @@ Every fact is a thread to pull:
 - **A number** → find the original report, check methodology and funding, compare the same metric across 2+ independent sources
 - **A claim** → trace to whoever said it first, check their funding and conflicts of interest, actively search for counter-evidence
 - **A company** → compare what they tell investors (annual report, earnings call) vs what they tell media (press release) — the gap is the story
-- **A paper** → backward: what does it cite? → forward: who cites it? (search "title site:semanticscholar.org" for citation data) → repeat until no new concepts appear (saturation)
+- **A paper** → use citation chain tracking (see below)
+
+## Citation Chain Tracking
+
+This is the most powerful method for finding all relevant papers on a topic. Search engines miss papers — citation networks don't.
+
+**How it works:**
+
+1. Start with one good paper (usually a review/survey found in round 1)
+2. **Backward**: look at its references — what papers does it cite? Search each important one by title to find and read it
+3. **Forward**: who cited this paper after it was published? Search "paper title site:semanticscholar.org" to find its citation list, or search "paper title cited by"
+4. For each important paper found in steps 2-3, repeat: check ITS references (backward) and ITS citations (forward)
+5. **Stop when saturated**: new papers stop introducing new concepts, methods, or authors you haven't seen before
+
+**Why this catches what keyword search misses:**
+- Papers using different terminology still cite each other
+- Very new papers (not yet indexed by search engines) still cite older ones
+- Niche papers in obscure venues are cited by papers in major venues
+
+**Practical tip:** Semantic Scholar shows citation counts and lists. Search "paper title site:semanticscholar.org" → WebFetch the page → read the "References" and "Cited By" sections.
 
 ## How To Read Papers
 
