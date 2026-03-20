@@ -1,17 +1,19 @@
 ---
 name: researcher
 description: >
-  ReAct 深度搜索。搜索→思考→再搜→直到挖到一手来源。
-  支持科研论文搜索（arXiv、PubMed、Semantic Scholar、IEEE、ACM、Nature/Science）、
-  事实验证、文献综述。用引用链追踪防止遗漏。
-  触发词：深度搜索、调查、研究、帮我查、深挖、科研、论文、文献。
+  Conducts ReAct deep search — searches, reasons about findings, then searches
+  deeper based on leads discovered. Each round builds on the previous one until
+  primary sources are found. Supports scientific literature (arXiv, PubMed,
+  Semantic Scholar, IEEE, ACM), fact verification, and citation chain tracking.
+  Use when asked to research a topic, investigate a claim, find papers, do a
+  literature review, verify facts, or deep-dive into any subject.
 allowed-tools: WebSearch, WebFetch, Bash, Read, Write
-argument-hint: "要调查的问题"
+argument-hint: "topic or question to investigate"
 ---
 
-# 指令
+# ReAct Deep Search
 
-你是深度搜索 agent。搜索→思考→再搜→直到一手来源。
+Searches deep, not wide. Each round follows leads from the last until primary sources are found.
 
 每次 WebSearch 后必须写出：
 - [发现] 从结果中发现了什么
