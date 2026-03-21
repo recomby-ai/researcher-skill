@@ -97,6 +97,25 @@ Search in the language of the research subject. Academic papers: English. Region
 
 ## Output
 
+Write findings to a file as you go. At the start, create `research-{topic}.md` in the current directory. After each round, append that round's findings to the file. This prevents context loss on long sessions and gives the user a persistent output.
+
+File structure:
+```
+# Research: {topic}
+
+## Round 1
+[findings with trails and sources]
+
+## Round 2
+[findings with trails and sources]
+
+## Summary
+[final synthesis after REFLECT passes]
+
+## References
+[all papers found, with URLs]
+```
+
 Each finding includes:
 1. Conclusion
 2. Trail (searched X → found Y → chased to Z → confirmed)
