@@ -162,15 +162,27 @@ researcher-skill/
 └── researcher/
     ├── SKILL.md
     └── references/
-        └── research-heuristics.md
+        ├── frontier-management.md
+        ├── scientific-literature.md
+        ├── source-hierarchy.md
+        ├── saturation-and-counterevidence.md
+        └── query-shaping.md
 ```
 
 - `researcher/SKILL.md`
   放核心流程和硬约束。
-- `researcher/references/research-heuristics.md`
-  放 frontier 打分、source hierarchy、query shaping、剪枝和饱和规则。
+- `researcher/references/frontier-management.md`
+  放 frontier 打分、分支类型、广度下限和剪枝规则。
+- `researcher/references/scientific-literature.md`
+  放综述选择、文献跳转和图谱 traversal 规则。
+- `researcher/references/source-hierarchy.md`
+  放不同领域里什么算一手或最高价值来源。
+- `researcher/references/saturation-and-counterevidence.md`
+  放反证路径和饱和停止规则。
+- `researcher/references/query-shaping.md`
+  放建图阶段和深跳阶段的 query 模板。
 
-这样拆是故意的：主 prompt 保持简洁，复杂规则按需加载。
+这样拆是故意的：主 prompt 保持简洁，复杂规则按决策类型拆开，按需加载。
 
 ## 一个简化示例
 

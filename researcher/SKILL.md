@@ -29,13 +29,17 @@ Do not:
 - hard-code narrow time windows unless the user asks for one
 - rely on overview sources alone for important claims
 
-Read [references/research-heuristics.md](references/research-heuristics.md)
-when you need:
-- frontier scoring or branch-pruning rules
-- scientific literature traversal rules
-- domain-specific source hierarchy
-- saturation criteria
-- query-shaping heuristics
+Read these references only when needed:
+- [references/frontier-management.md](references/frontier-management.md)
+  for frontier scoring, branch types, pruning, or breadth-control rules
+- [references/scientific-literature.md](references/scientific-literature.md)
+  for literature traversal, overview-source selection, or citation-graph jumps
+- [references/source-hierarchy.md](references/source-hierarchy.md)
+  for domain-specific source hierarchy
+- [references/saturation-and-counterevidence.md](references/saturation-and-counterevidence.md)
+  for challenge-path and stopping rules
+- [references/query-shaping.md](references/query-shaping.md)
+  for query design when default search behavior is not enough
 
 ## Phase 1: MAP the field first
 

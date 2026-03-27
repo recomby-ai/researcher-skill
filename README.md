@@ -170,17 +170,28 @@ researcher-skill/
 └── researcher/
     ├── SKILL.md
     └── references/
-        └── research-heuristics.md
+        ├── frontier-management.md
+        ├── scientific-literature.md
+        ├── source-hierarchy.md
+        ├── saturation-and-counterevidence.md
+        └── query-shaping.md
 ```
 
 - `researcher/SKILL.md`
   The core workflow and hard constraints.
-- `researcher/references/research-heuristics.md`
-  Detailed heuristics for frontier scoring, source hierarchy, query shaping,
-  branch pruning, and saturation.
+- `researcher/references/frontier-management.md`
+  Frontier scoring, branch types, breadth floors, and pruning rules.
+- `researcher/references/scientific-literature.md`
+  Literature traversal, overview-source selection, and graph-jump patterns.
+- `researcher/references/source-hierarchy.md`
+  What counts as a primary or highest-value source in each domain.
+- `researcher/references/saturation-and-counterevidence.md`
+  Challenge-path rules and saturation criteria.
+- `researcher/references/query-shaping.md`
+  Query templates for map-phase and deepen-phase search.
 
 The split is intentional: the core prompt stays lean, and detailed rules are
-loaded only when needed.
+broken up by decision type so they can be loaded only when needed.
 
 ## Example
 
