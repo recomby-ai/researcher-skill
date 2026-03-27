@@ -1,50 +1,67 @@
-# Researcher — ReAct Deep Search Skill
+# Researcher — Frontier-Driven ReAct Research Skill
 
-Claude is already great at reasoning. But when it searches the web, it typically searches once, reads the snippets, and gives you an answer. That's a single pass — it doesn't follow leads or chase citations.
+Claude is already good at reasoning. The problem is that normal web research
+often stops after one broad pass or turns into repeated query paraphrases.
 
-This skill is a single prompt that changes that behavior. Claude now reasons between search rounds: each search is driven by leads discovered in the previous one, chasing citations forward and backward through the academic literature until it hits primary sources. Same Claude, deeper search.
+This skill changes the search policy:
 
-## Two Core Ideas
+1. **Breadth-first field mapping first** — The first pass maps the field using
+   the latest available overview sources, recent representative work,
+   foundational sources, benchmarks, and counter-evidence.
+2. **Multi-branch frontier after that** — Instead of locking onto one lead too
+   early, Claude keeps several active branches and chooses which ones to deepen
+   based on information gain and source value.
+3. **ReAct deepening on each branch** — Every later round is driven by what the
+   previous round uncovered: find leads, decide the next hop, chase primary
+   sources, and stop only when the graph saturates.
 
-**1. ReAct-driven search** — Claude doesn't just search multiple times. Each round's search direction is determined by what the previous round discovered. Search → Reason (what did I find? what lead should I chase?) → Act (search that specific lead) → repeat.
+Together, this makes research behave more like an investigator following a
+graph of evidence than a search engine aggregating webpages.
 
-**2. Citation chain tracking** — Start broad (find review papers, map the field), then go deep: pick a key paper, follow its references backward (what does it cite?), follow its citations forward (who cited it?), repeat until no new concepts appear. This catches papers that keyword search misses because papers using different terminology still cite each other.
-
-Together: **ReAct drives citation chain jumping.** Each REASON step decides which paper's citation chain to follow next.
+Implementation note: the core workflow lives in
+`researcher/SKILL.md`, while detailed heuristics for frontier scoring, source
+hierarchy, and saturation live in
+`researcher/references/research-heuristics.md`.
 
 ## What This Looks Like
 
 ```
-Round 1: Search "LLM hallucination survey 2025"
-  → [Finding] Found 3 survey papers, key researchers: Huang et al., Radhakrishnan
-  → [Lead] Huang et al. survey has 200+ references — chase their citation chain
-  → [Gap] No counter-evidence yet
+Round 1: Map "LLM hallucination mitigation"
+  → latest survey / benchmark / recent papers / foundational papers
+  → branches found:
+    A. retrieval-based methods
+    B. decoding-time methods
+    C. internal steering / representation methods
+    D. criticism / limitations / benchmark validity
 
-Round 2: Search Huang et al. on Semantic Scholar → read references
-  → [Finding] They cite a mathematical proof (Xu et al. 2024) that hallucination is inevitable
-  → [Lead] This proof paper — need to read it and check who cites it
-  → [Gap] Haven't verified the proof's actual claims
+Round 2: Deepen A + C + D
+  → A leads to benchmark papers and dataset details
+  → C leads to a recent Science paper and its cited prior work
+  → D leads to replication and evaluation-limit papers
 
-Round 3: WebFetch the proof paper + search forward citations
-  → [Finding] Proof only applies to "general problem solving" — domain-specific can still improve
-  → [Lead] MIT/UCSD published a Science paper on internal steering (Feb 2026)
-  → [Gap] No quantitative comparison of methods yet
+Round 3: Jump to primary sources
+  → read original papers, appendix, cited baselines, and forward citations
+  → drop weak branches, keep high-yield ones active
 
-Round 4: Chase the Science paper + search for method comparisons
-  → [Finding] RAG reduces hallucination 40-71%, internal steering outperforms judge models
-  → Saturation: no new concepts appearing → done
+Round 4+: Continue until saturation
+  → no major new methods, evidence layers, or debates appear
+  → key claims tied to primary or highest-value available sources
 ```
 
-## Tested Results
+## Scientific Research Behavior
 
-Same question ("LLM hallucination solutions"), with and without skill:
+For scientific and technical queries, the skill is designed to preserve strong
+research quality:
 
-| | Without | With |
-|--|---------|------|
-| Search rounds | 1 | 4 |
-| Papers read | 0 | 4 |
-| Primary sources | 0 | 3 |
-| Counter-evidence | None | Yes |
+- It looks for the **latest available** overview source, not a hard-coded
+  one-year window.
+- If no formal review exists, it falls back to the best overview substitute:
+  tutorial, benchmark paper, perspective, standards document, or seminal paper
+  cluster.
+- It keeps both ends of the field in view:
+  newest representative work and foundational sources.
+- It actively searches for criticism, limitations, replication, and competing
+  approaches.
 
 ## Install
 
@@ -57,17 +74,26 @@ Then use `/researcher your question` in Claude Code.
 
 ## Usage
 
-```
+```text
 /researcher What are the current solutions to LLM hallucination?
 /researcher CRISPR off-target detection methods — state of the art
 /researcher Is solid-state battery mass production realistic by 2026?
 ```
 
+## Core Rules
+
+- Do not answer after one search round.
+- Do not hard-code narrow time windows unless the user asks for one.
+- Do not rely on overview sources alone for important claims.
+- Do not collapse to one branch too early.
+- Do not stop because a round count was reached; stop when the research graph
+  saturates.
+
 ## Limitations
 
-- Cannot access Google Scholar via WebSearch (uses Semantic Scholar as alternative — 200M+ papers, 98.3% coverage overlap)
-- Cannot read paywalled paper full text (reads abstracts, cites accordingly)
-- Not a systematic review tool — catches 95%+ of relevant papers through keyword + citation chaining, but edge cases exist
+- Cannot access Google Scholar via WebSearch
+- Cannot always fetch paywalled full text
+- Depends on web-visible sources and what the search/fetch tools can reach
 
 ## License
 
