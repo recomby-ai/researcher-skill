@@ -6,6 +6,32 @@ This skill is built for one job: turn web research from "search once, summarize
 snippets" into "map the field, follow leads, and keep digging until the answer
 is anchored in primary sources or the evidence graph saturates."
 
+English | [中文](README.zh-CN.md)
+
+## Quick Nav
+
+- [What This Skill Does](#what-this-skill-does)
+- [Search Strategy](#search-strategy)
+- [Why This Is Different](#why-this-is-different)
+- [Scientific Research Behavior](#scientific-research-behavior)
+- [Repository Structure](#repository-structure)
+- [Installation](#installation)
+- [Usage Examples](#usage-examples)
+- [Core Rules](#core-rules)
+- [Limitations](#limitations)
+
+## At a Glance
+
+| | Ordinary "deep search" | This skill |
+|---|---|---|
+| First round | Search and summarize | Breadth-first field mapping |
+| Search structure | Many pages, weak structure | Explicit evidence graph |
+| Lead selection | Query reformulation | Frontier-driven branch selection |
+| Search depth | Often broad but shallow | Multi-branch ReAct deepening |
+| Recency logic | Often fixed windows | Latest available source in-field |
+| Stop rule | Round count or token limit | Saturation of the research graph |
+| Research style | Aggregator | Investigator |
+
 ## What This Skill Does
 
 Most so-called "deep search" systems are still broad aggregators. They search a
