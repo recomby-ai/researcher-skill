@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Operating System"
+  short_description: "Route and run multi-source investigations"
+  default_prompt: "Use $researcher to investigate this question with a field map, active frontier, challenge path, and synthesis."

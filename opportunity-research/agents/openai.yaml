@@ -1,0 +1,4 @@
+interface:
+  display_name: "Opportunity Research"
+  short_description: "Find credible opportunities, not narratives"
+  default_prompt: "Use $opportunity-research to find the strongest opportunities here, rank them, and explain the supporting signals and risks."

@@ -1,41 +1,56 @@
-# Source Hierarchy By Domain
+# Source Hierarchy
 
-Load this file when you need to decide what counts as a primary or
-highest-value source.
+Load this file when you need to decide which source classes matter and how much
+to trust each one.
 
-Do not assume every question has the same notion of "primary source."
+## 1. Source classes
 
-## 1. Scientific and technical research
+Use multiple classes, not a single ranking:
 
-Highest-value sources usually include:
-- original paper
-- supplementary material or appendix
-- code repository
-- dataset documentation
-- benchmark or evaluation documentation
+- `Official`
+  What an institution, company, lab, or regulator says.
+- `Behavioral`
+  What the institution actually does: hiring, pricing, commits, launches,
+  customer references, product motion, supply signals.
+- `Operator`
+  What experienced people in the field say in interviews, long posts, talks,
+  and direct commentary.
+- `Lived experience`
+  What practitioners or users report in Reddit, X, LinkedIn, forums, Blind,
+  Glassdoor, issue trackers, and discussion boards.
+- `Adversarial`
+  Short reports, critics, lawsuits, negative investigations, complaints,
+  whistleblower-style material, or skeptical analysts.
+- `Market proxy`
+  Fundraising, layoffs, salary bands, adoption proxies, search demand, and
+  vendor/customer patterns.
+- `Artifact`
+  Papers, repos, docs, datasets, filings, benchmarks, legal text, patents,
+  or product artifacts.
 
-When the question is about the current state of a field, you usually need both:
-- newest reliable overview material
-- original evidence behind the key claim
+## 2. How to use each class
 
-## 2. Industry, companies, and products
+- Official sources are best for stated intent, not necessarily ground truth.
+- Behavioral and artifact sources are often best for reality checks.
+- Lived-experience sources surface friction, day-to-day reality, and hidden
+  costs.
+- Adversarial sources are high-value challenge paths and lead generators.
+- Market proxies help test whether a narrative has economic weight.
 
-Highest-value sources usually include:
-- regulator filing
-- earnings report or shareholder letter
-- company announcement
-- patent
-- standard or certification document
-- official technical documentation
+## 3. Quality questions
 
-## 3. Medicine and public health
+For any source, ask:
+- Is it close to the claim?
+- What incentives does the source have?
+- Is it firsthand or repeating someone else?
+- Is it specific, recent, and falsifiable?
+- Does another source class agree or disagree?
 
-Highest-value sources usually include:
-- systematic review or meta-analysis
-- randomized controlled trial
-- guideline
-- registry
-- regulator source
+## 4. Default triangulation
 
-If the user's question mixes domains, combine the relevant source hierarchies
-instead of forcing everything into the paper-centric path.
+For important conclusions, try to combine:
+- one official or artifact source
+- one behavioral or market source
+- one human or adversarial source
+
+If that triangulation is impossible, say so explicitly.

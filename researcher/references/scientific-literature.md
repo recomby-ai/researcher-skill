@@ -1,57 +1,31 @@
-# Scientific Literature Traversal
+# Scientific Literature
 
-Load this file when the topic depends on papers, technical reports, benchmarks,
-or citation-graph traversal.
+Load this file when the question is paper-heavy, benchmark-heavy, or about
+technical lineage.
 
-## 1. Map phase defaults
+## 1. Literature pack
 
-For scientific and technical topics, the map phase should usually look for:
-- latest available review, survey, tutorial, benchmark, perspective, or field
-  overview
-- recent representative papers
-- foundational or defining papers
-- benchmarks, datasets, evaluation protocols, or standards
-- criticism, limitation, replication, or alternative approaches
+Prioritize:
+- the latest useful survey or review
+- representative recent papers
+- foundational papers
+- benchmark, dataset, or evaluation sources
+- replication, limitation, or competing-method papers
 
-Do not hard-code a one-year or two-year window unless the user asks for one.
-"Latest" means newest relevant material available in that field.
+## 2. Traversal strategy
 
-If no formal review exists, fall back to the best overview substitute:
-- tutorial
-- benchmark paper
-- perspective
-- workshop survey
-- field overview from a reputable venue
+Map first, then traverse by graph:
+- backward to identify foundations and assumptions
+- forward to see what actually influenced the field
+- sideways to compare competing methods, benchmarks, and replications
 
-## 2. Graph jumps
+Use project pages, code repos, benchmark docs, and model cards as companion
+artifacts rather than relying on abstracts alone.
 
-After mapping, deepen by jumping across the graph:
+## 3. Output standard
 
-1. `Backward`
-   What does this paper repeatedly cite?
-2. `Forward`
-   Who cited this source later?
-3. `Sideways`
-   What competing methods solve the same problem?
-4. `Downward`
-   What appendix, supplementary material, code, dataset, or benchmark clarifies
-   the claim?
-
-Useful jump patterns:
-- review or survey -> repeatedly cited original paper
-- recent paper -> cited baselines, appendix, code, or benchmark
-- benchmark paper -> dataset definition, metric definition, reproducibility
-  notes
-- criticism paper -> criticized paper and any response or rebuttal
-- lab or author -> project page, official repo, talk, or technical report
-
-## 3. Primary-source completion
-
-For important claims, do not stop at the overview layer. Follow enough of the
-graph to reach:
-- original paper
-- appendix or supplementary material
-- code or project page when the claim depends on implementation details
-- dataset or benchmark documentation when the claim depends on evaluation
-
-If a primary source cannot be located, say so explicitly.
+For each important technical conclusion, record:
+- the paper or artifact that supports it
+- the benchmark or evaluation context
+- what the result does not prove
+- whether a contrary paper or limitation path was checked

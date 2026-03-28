@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claim Validation Research"
+  short_description: "Validate a contested claim across evidence"
+  default_prompt: "Use $claim-validation-research to test this claim, gather support and counter-evidence, and give a clear verdict."
