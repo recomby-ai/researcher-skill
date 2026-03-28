@@ -1,4 +1,0 @@
-interface:
-  display_name: "Field Mapping Research"
-  short_description: "Map an unfamiliar field before digging in"
-  default_prompt: "Use $field-mapping-research to map this space, identify the main branches and actors, and propose the best next leads."

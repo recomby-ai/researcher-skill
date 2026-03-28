@@ -1,4 +1,0 @@
-interface:
-  display_name: "Decision Support Research"
-  short_description: "Research a choice and recommend a path"
-  default_prompt: "Use $decision-support-research to compare these options, surface the key tradeoffs, and recommend a path."

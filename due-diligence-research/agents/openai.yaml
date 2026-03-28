@@ -1,4 +1,0 @@
-interface:
-  display_name: "Due Diligence Research"
-  short_description: "Stress-test a company or thesis before trust"
-  default_prompt: "Use $due-diligence-research to stress-test this company or thesis, surface risks, and judge whether the story matches reality."

@@ -1,226 +1,134 @@
-# Research Skills
+# Researcher
 
-Purpose-based research skills for Codex / Claude Code.
+A single standalone research skill for Claude Code / Codex.
 
-This repository started as a single `researcher` skill. It is now a small
-research skill system:
+One installable skill, three reference packs, composable by purpose.
 
-- one shared core and router skill
-- multiple purpose-specific skills
-- shared reference packs for evidence classes and search strategy
+```text
+FRAME → MAP → FRONTIER → DEEPEN → CHALLENGE → SYNTHESIZE
+```
 
 English | [中文](README.zh-CN.md)
 
-## What This Repository Is
+## What This Skill Does
 
-These skills are designed for research tasks that are:
+`researcher` is for research tasks that are:
 
 - open-ended
 - multi-source
 - judgment-heavy
-- vulnerable to hype, shallow summaries, or one-sided narratives
+- vulnerable to hype, weak summaries, or one-sided narratives
 
-The system keeps the original breadth-first then depth-first idea, but upgrades
-it from topic search to evidence-driven investigation:
+It is designed for work like:
+
+- mapping a new industry or field
+- investigating a company or product
+- validating a claim or narrative
+- comparing paths and making decisions
+- finding real opportunities vs loud narratives
+- understanding practitioner reality and hidden friction
+- reviewing academic literature and state of the art
+
+## Architecture
+
+One core engine + three domain packs loaded on demand:
 
 ```text
-FRAME -> MAP -> FRONTIER -> DEEPEN -> CHALLENGE -> SYNTHESIZE
+researcher/
+├── SKILL.md                          ← core research engine
+└── references/
+    ├── business.md                   ← industry + company + career
+    ├── academic.md                   ← papers + benchmarks + technical lineage
+    └── claim-verification.md         ← cross-domain fact checking
 ```
 
-That means:
+**SKILL.md** contains the full research methodology: the six-phase cycle, source
+class taxonomy, frontier management, saturation rules, challenge discipline,
+tool usage, budget limits, and output templates.
 
-- the first pass maps evidence classes, not just webpages
-- later search becomes lead-driven, not generic query reformulation
-- strong conclusions require support, challenge paths, and visible reasoning
+**Reference packs** contain domain-specific tactics: where to search, what
+queries to use, what to extract, domain-specific challenge paths, and output
+templates tuned for that research type.
 
-## Included Skills
-
-| Skill | Use when you need to... |
-|---|---|
-| `researcher` | Route an ambiguous research request and run the shared research operating system |
-| `field-mapping-research` | Map a space, identify branches, actors, debates, and next leads |
-| `claim-validation-research` | Test whether a claim, report, metric, or narrative holds up |
-| `decision-support-research` | Compare options and recommend a path under real constraints |
-| `opportunity-research` | Find credible opportunities, wedges, or emerging directions |
-| `due-diligence-research` | Stress-test a company, product, or thesis against reality |
-| `operator-reality-research` | Understand day-to-day work, hidden friction, and lived experience |
+The agent loads SKILL.md for every task, then loads 1-2 reference packs based
+on what the research is about.
 
 ## Core Design
 
-### 1. Purpose-first routing
+### 1. Evidence-first, not webpage-first
 
-Top-level skills are split by search purpose, not by topic.
+The skill treats the internet as a mixed evidence environment:
 
-This matters because a single question may span:
+- official — what institutions say
+- behavioral — what they actually do
+- operator — what experienced people say
+- lived experience — what practitioners report in forums and social
+- adversarial — short reports, critics, lawsuits, complaints
+- market proxy — hiring, pricing, adoption, fundraising signals
+- artifact — papers, repos, docs, datasets, filings
 
-- papers
-- job markets
-- community signals
-- company evidence
-- adversarial material
+### 2. Broad first pass, then controlled depth
 
-Example:
+The first round is not "search until you can summarize." It is:
 
-`"Is AI agent engineer a real entry-level path?"`
+- a controlled breadth-first map (4-6 searches)
+- followed by a frontier of 2-4 active leads
+- followed by lead-driven deepening
 
-This is not only a job-market question. It may require:
+### 3. Mandatory challenge paths
 
-- exact-title job postings
-- adjacent-title job postings
-- company hiring pages
-- LinkedIn trajectories
-- Reddit or forum experience
-- skeptical or adversarial takes
+Every strong thesis must run a challenge path before synthesis. The skill
+requires checking opposing incentives, adversarial sources, and behavioral
+evidence before concluding.
 
-### 2. Evidence classes instead of single-source hierarchy
+### 4. Visible reasoning
 
-The shared references treat the internet as a mixed evidence environment:
-
-- official
-- behavioral
-- operator
-- lived experience
-- adversarial
-- market proxy
-- artifact
-
-This avoids the common mistake of treating "official" as automatically true or
-treating social/community sources as automatically useless.
-
-### 3. Visible reasoning
-
-Each skill is written to keep a visible `research-{topic}.md` log while working.
-The goal is to avoid the familiar failure mode of "searched a lot, but I cannot
-see the actual reasoning path."
-
-## Repository Structure
-
-```text
-researcher-skill/
-├── README.md
-├── README.zh-CN.md
-├── researcher/
-│   ├── SKILL.md
-│   ├── agents/openai.yaml
-│   └── references/
-│       ├── core-method.md
-│       ├── frontier-management.md
-│       ├── query-shaping.md
-│       ├── saturation-and-counterevidence.md
-│       ├── scientific-literature.md
-│       ├── source-hierarchy.md
-│       ├── source-packs-company-intel.md
-│       ├── source-packs-field-signals.md
-│       └── source-packs-jobs.md
-├── field-mapping-research/
-├── claim-validation-research/
-├── decision-support-research/
-├── opportunity-research/
-├── due-diligence-research/
-└── operator-reality-research/
-```
-
-## How The Skills Fit Together
-
-`researcher/` is the shared core:
-
-- router skill
-- common workflow
-- source hierarchy
-- query shaping
-- challenge-path logic
-- source packs
-
-The purpose-specific sibling skills are intentionally thin:
-
-- strong trigger descriptions
-- focused workflow
-- shared references to `../researcher/references/...`
-
-This keeps the shared method centralized while letting each skill stay tuned to
-its research purpose.
+The skill writes `research-{topic}.md` and updates it throughout the run, so
+the research path is visible and auditable.
 
 ## Installation
 
-### Local install
-
-Clone the repository:
+Clone:
 
 ```bash
 git clone https://github.com/recomby-ai/researcher-skill.git
 ```
 
-Copy all skill folders into your Codex/Claude skill directory:
+Install to Claude Code:
+
+```bash
+cp -R researcher-skill/researcher ~/.claude/skills/
+```
+
+Install to Codex:
 
 ```bash
 cp -R researcher-skill/researcher ~/.codex/skills/
-cp -R researcher-skill/field-mapping-research ~/.codex/skills/
-cp -R researcher-skill/claim-validation-research ~/.codex/skills/
-cp -R researcher-skill/decision-support-research ~/.codex/skills/
-cp -R researcher-skill/opportunity-research ~/.codex/skills/
-cp -R researcher-skill/due-diligence-research ~/.codex/skills/
-cp -R researcher-skill/operator-reality-research ~/.codex/skills/
 ```
 
-If you are using Claude Code instead of Codex, copy the same folders into
-`~/.claude/skills/`.
+## Web Upload
 
-Important:
-
-- install `researcher/` together with the purpose-specific skills
-- the sibling skills rely on the shared references inside `researcher/`
-
-### Web upload
-
-When uploading to a web UI, zip the skill directories together.
-
-Include:
-
-- `researcher/`
-- `field-mapping-research/`
-- `claim-validation-research/`
-- `decision-support-research/`
-- `opportunity-research/`
-- `due-diligence-research/`
-- `operator-reality-research/`
-
-Do not upload only one purpose-specific skill unless you also include
-`researcher/`, because the shared references live there.
+Zip the `researcher/` folder and upload. It is self-contained.
 
 ## Example Prompts
 
 ```text
-Use $field-mapping-research to map the AI agent engineering job market.
-Use $claim-validation-research to verify whether this industry claim holds up.
-Use $decision-support-research to compare quant, AI infrastructure, and applied ML for a math undergraduate.
-Use $opportunity-research to identify the most promising wedges in vertical AI for SMBs.
-Use $due-diligence-research to stress-test this startup narrative.
-Use $operator-reality-research to find what practitioners actually complain about in production agent systems.
-Use $researcher to investigate what is really happening here and choose the right research mode.
+Use $researcher to map the AI agent engineering job market.
+Use $researcher to verify whether this industry claim is actually true.
+Use $researcher to compare quant, AI infrastructure, and applied ML for a math undergraduate.
+Use $researcher to find the strongest opportunities in vertical AI.
+Use $researcher to stress-test this startup before I take the offer.
+Use $researcher to find what practitioners really complain about in production agent systems.
+Use $researcher to review the literature on retrieval-augmented generation.
+Use $researcher to do due diligence on this company's Series B narrative.
 ```
-
-## Notes On Current Behavior
-
-This repository was refactored to address a few recurring failure modes:
-
-- too much generic search, not enough lead chasing
-- not enough challenge-path work
-- role or market research getting trapped by exact job titles
-- invisible reasoning during long searches
-
-The current skills explicitly push for:
-
-- breadth-first evidence mapping
-- visible research logs
-- exact-title and adjacent-title checks for market claims
-- use of community, adversarial, and operator sources as signal paths
 
 ## Limitations
 
-- public-web access still depends on available search and fetch tools
-- some sources remain inaccessible behind paywalls or platform login
-- social and community sources are useful, but still require triangulation
-- these skills improve research behavior; they do not replace domain expertise
+- Still limited by the public web and available search/fetch tools
+- Some sources remain behind logins or paywalls
+- Social and community sources are signals, not automatic truth
+- This skill improves research behavior; it does not replace domain expertise
 
 ## License
 

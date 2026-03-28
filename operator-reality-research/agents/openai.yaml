@@ -1,4 +1,0 @@
-interface:
-  display_name: "Operator Reality Research"
-  short_description: "Surface real practitioner experience and friction"
-  default_prompt: "Use $operator-reality-research to find what practitioners actually experience, where the friction is, and how it differs from the public story."
