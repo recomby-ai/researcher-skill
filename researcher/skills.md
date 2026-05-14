@@ -1,14 +1,15 @@
 ---
 name: researcher
 description: >
-  Runs structured multi-source research, investigation, claim verification,
-  due diligence, market research, academic literature review, competitive
-  analysis, opportunity scanning, and risk assessment. Use for prompts such as
-  research, investigate, verify, compare, analyze, fact check, deep dive,
-  literature review, market landscape, due diligence, 研究, 调研, 分析, 验证,
-  核实, 深挖, 行业分析, 市场调研, 竞品分析, 尽职调查, 这个靠谱吗,
-  真实情况是什么, 有没有前景, 值不值得, 到底怎么样, 是真的吗.
-argument-hint: <research question or topic / 研究问题或主题>
+  Horizontal-Vertical Research skill for systematic investigation of a product,
+  company, market, concept, technology, person, career path, academic topic, or
+  factual claim. Use when the user asks to research, investigate, analyze,
+  compare, verify, fact check, do due diligence, map a field, review literature,
+  understand the real story, or judge whether something is worth believing or
+  pursuing. Also trigger on 研究, 调研, 分析, 深挖, 横纵分析, 竞品分析,
+  尽职调查, 核实, 验证, 这个靠谱吗, 真实情况是什么, 有没有前景,
+  值不值得, 到底怎么样, 是真的吗.
+argument-hint: <research object or question / 研究对象或问题>
 allowed-tools:
   - WebSearch
   - WebFetch
@@ -16,446 +17,357 @@ allowed-tools:
   - Write
 ---
 
-# Researcher Skill
+# Horizontal-Vertical Research
 
-## Purpose and Non-Negotiables
-
-Treat research as a mixed evidence problem, not a search-result collection.
-The job is to frame the question, map the evidence environment, follow the
-highest-value leads, attack the working view, and synthesize a decision-grade
-answer with confidence and caveats.
-
-Always preserve this cycle:
+This skill has one core method:
 
 ```text
-FRAME -> MAP -> FRONTIER -> DEEPEN -> CHALLENGE -> SYNTHESIZE
+VERTICAL history + HORIZONTAL comparison -> CROSS-AXIS judgment
 ```
 
-Non-negotiables:
-
-- Default output is an answer in chat. Create or update a durable artifact only
-  when the user asks for one, provides an output path, or the work is too large
-  to remain useful inline.
-- Broad first pass means source-class coverage, not URL hoarding.
-- Fetch and read high-value sources before relying on snippets or widening.
-- After mapping, searches should follow named leads, not generic rephrases.
-- Important conclusions need 2+ source classes or an explicit unresolved note.
-- Every strong thesis needs a challenge path before final synthesis.
-- Social, review, and forum sources are signal sources, not standalone truth.
-
-## Modes: Quick / Standard / Deep
-
-Choose the smallest mode that can answer the user's decision. If the user names
-a mode, follow it. If urgency or scope is ambiguous, use Standard.
+The vertical axis explains how the object became what it is. The horizontal
+axis explains where it stands now among peers, substitutes, users, incentives,
+and evidence classes. The cross-axis section is the point of the work: explain
+how history shaped the current position, what is real vs overstated, and what
+is likely to happen next.
 
-| Mode | Use When | Typical Budget | Output Expectation |
-| --- | --- | --- | --- |
-| Quick | Triage, sanity check, narrow claim, initial landscape | 3-6 searches/fetches, 2-3 source classes, 1 challenge check | Short answer, verdict, 3-6 cited sources, caveats |
-| Standard | Most research, comparisons, diligence, career/market scans | 8-15 searches/fetches, 4+ source classes, 2-4 leads, 2+ challenge checks | Structured brief with field map, evidence, verdicts, confidence |
-| Deep | High-stakes or broad landscape, literature review, complex due diligence | 20-40 searches/fetches, full source-class sweep, explicit ledger/matrix, multiple challenge paths | Research brief or artifact, evidence matrix, scenarios, unresolved questions |
-
-If near budget, prioritize synthesis and uncertainty over more searching.
-
-## Core Workflow
-
-1. FRAME: define the decision, claims, stakeholders, scope, source classes, and
-   evidence that would change the answer.
-2. MAP: run a broad first pass across source classes and produce a field map.
-3. FRONTIER: select 2-4 active leads by decision relevance, source proximity,
-   information gain, coverage gap, contradiction value, and path dependence.
-4. DEEPEN: read substantive sources, extract findings, note gaps, and jump to
-   the next best lead.
-5. CHALLENGE: attack the strongest thesis with adversarial, behavioral, and
-   contrary-source searches.
-6. SYNTHESIZE: assign verdict labels, confidence, and what could change the
-   view.
-
-For each active lead, use:
-
-```text
-Search/Fetch -> EXTRACT -> CHALLENGE -> NEXT JUMP
-```
-
-Branch types:
-
-- `Claim`: statement needing support or falsification.
-- `Stakeholder`: company, lab, operator, user group, regulator, critic.
-- `Source-gap`: missing source class or primary document.
-- `Artifact`: paper, repo, docs, dataset, filing, benchmark, legal document.
-- `Contradiction`: rebuttal, complaint, failed case, competing narrative.
-- `Trajectory`: trend in hiring, pricing, adoption, funding, regulation.
+Do not turn research into source hoarding. Every search, note, and source must
+serve one of the two axes or the final judgment.
 
-Stop widening when major actors are visible, relevant source classes are known,
-main debates are named, repeated searches return known nodes, and at least one
-contradiction path exists.
+## 0. Preparation
 
-## Frame / Research Brief
+Before searching, identify:
 
-Before searching, create a lightweight research brief. Keep it short in Quick
-mode and fuller in Standard/Deep.
+1. Research object: product, company, concept, technology, person, market,
+   career path, academic topic, or claim.
+2. User intent: understand, compare, decide, verify, invest, join, buy, build,
+   or write a report.
+3. Scope: geography, timeframe, audience, depth, exclusions, and output form.
+4. Known focus: what the user cares about most.
+5. Evidence that would change the answer.
 
-Research Brief fields:
+If the object and intent are already clear, do not ask. Start.
 
-- Decision question or judgment target.
-- Scope boundaries: geography, time period, audience, object type, exclusions.
-- Key claims/subclaims to confirm, weaken, or falsify.
-- Stakeholders and incentives.
-- Required source classes and likely best primary artifacts.
-- Subtopics or perspectives to decompose the work.
-- Evidence that would change the answer.
-- Output shape requested by the user, or default answer if none was requested.
+User-provided files, links, notes, transcripts, or datasets are primary context.
+Read them before broad web search when they define the task. Distinguish facts
+from provided material, facts externally corroborated, and facts contradicted by
+external evidence.
 
-For A-vs-B decisions, frame criteria first and compare options against the same
-criteria. For claim verification, decompose the claim into concrete falsifiable
-subclaims.
+Default output is a chat answer. Create a durable Markdown artifact only when
+the user asks for one, gives an output path, or the research is too large to be
+useful inline.
 
-## Source Classes and Evidence Quality
+## 1. Information Collection
 
-Use the source-class model to avoid one-dimensional answers:
+Collect information in three lanes. Keep them separate until synthesis.
 
-- Official: institutions, companies, regulators, authors, standards bodies.
-- Behavioral: hiring, pricing, releases, commits, launches, adoption, churn.
-- Operator: experienced practitioners, maintainers, executives, recruiters.
-- Lived experience: users, employees, students, customers, communities.
-- Adversarial: critics, short reports, lawsuits, complaints, debunks.
-- Market proxy: fundraising, layoffs, salary, M&A, search demand, procurement.
-- Artifact: papers, repos, docs, datasets, filings, benchmarks, contracts.
+### Lane A: Vertical Information
 
-Quality markers:
+Find the object's origin and development:
 
-- `✓` primary, artifact, close-to-source, or independently verifiable evidence.
-- `?` secondary, partial, dated, anecdotal, or context-limited evidence.
-- `✗` contradicted, weak, promotional, methodologically unclear, or problematic.
+- Who created or first proposed it?
+- What problem, theory, market gap, or personal background produced it?
+- What was the first public version, founding moment, or canonical statement?
+- What major versions, funding events, papers, releases, controversies,
+  personnel changes, pivots, or regulatory shifts changed its path?
+- Which early decisions locked in later constraints?
 
-Triangulation rule for important conclusions:
+### Lane B: Horizontal Information
 
-- Prefer one official or artifact source.
-- Prefer one behavioral or market source.
-- Prefer one human or adversarial source.
-- If triangulation is impossible, state the missing source class and why.
+Find the current comparison set:
 
-## Metadata and Citation Rules
+- Direct competitors or peers.
+- Indirect substitutes and older ways of solving the same problem.
+- Adjacent concepts, methods, companies, roles, or communities.
+- User/operator sentiment and actual usage patterns.
+- Market, hiring, pricing, adoption, benchmark, or deployment signals.
 
-For each important source capture enough metadata to make the evidence auditable:
+### Lane C: Challenge Information
 
-- Title or source name.
-- Author, publisher, organization, or platform when available.
-- Publication date and, for unstable topics, access date.
-- URL or stable identifier.
-- Source class and quality marker.
-- Any method, sample, benchmark, jurisdiction, or population limits.
+Actively seek what could weaken the emerging story:
 
-Citation behavior:
+- Criticism, failed cases, lawsuits, complaints, short reports, rebuttals.
+- Benchmark limitations, replication failures, stale data, bad methodology.
+- Incentives to exaggerate, hide problems, or attack unfairly.
+- Evidence that the public narrative is marketing rather than reality.
 
-- Cite claims near where they appear, not only in a reference dump.
-- Prefer primary/original sources over summaries; use summaries to find primary
-  sources, not to replace them.
-- For dated topics, make recency visible and do not mix old and new evidence
-  without noting time gaps.
-- Quote sparingly; paraphrase and preserve the claim, context, and caveat.
-- If sources disagree, cite both sides and explain what each source can and
-  cannot establish.
+### Source Priority
 
-## Local/User-Provided Materials
+Prefer source-proximate evidence:
 
-User-provided files, pasted text, links, datasets, transcripts, notes, or prior
-research are first-class sources.
+| Information Need | Strong Sources |
+| --- | --- |
+| Product changes | Official docs, changelog, release notes, GitHub commits/issues |
+| Company/business facts | Filings, official announcements, investor material, pricing, hiring |
+| User reality | Forums, reviews, GitHub issues, Reddit, X, LinkedIn, Blind, interviews |
+| Technical or academic claims | Papers, benchmarks, datasets, repos, model/dataset cards |
+| Market or career claims | Job posts, salary data, procurement, adoption, layoffs, profiles |
+| Controversy or risk | Lawsuits, complaints, short reports, regulator actions, rebuttals |
 
-Rules:
+One source class is not enough for an important conclusion. Try to combine:
 
-- Read local/user-provided materials before external search when they define
-  the task, contain private context, or are likely more authoritative.
-- Preserve the user's terminology unless it conflicts with public evidence.
-- Distinguish "from provided material" from "externally corroborated."
-- Do not upload, quote extensively, or expose private material unless needed
-  for the requested output.
-- If local material conflicts with web evidence, surface the conflict and
-  attempt to resolve it through artifacts or primary sources.
+- One official or artifact source.
+- One behavioral or market source.
+- One human or adversarial source.
 
-## Object-Type Playbooks
+If triangulation is impossible, state which evidence class is missing.
 
-Adapt the workflow to the object being researched.
-
-Product:
-
-- Check official docs, pricing, changelog, demos, repos, reviews, issue
-  trackers, customer proof, competitors, and switching costs.
-- Test product claims against artifacts and user/operator reality.
-
-Company:
-
-- Check official narrative, filings/investor material, customers, hiring,
-  leadership, funding, layoffs, lawsuits, complaints, reviews, and market role.
-- Compare growth claims with behavioral and market-proxy signals.
-
-Industry or Market:
-
-- Map segments, key actors, demand drivers, regulation, value chain, adoption
-  signals, funding/M&A, substitutes, and skeptics.
-- Separate market size claims from demonstrated spend or deployment.
-
-Career or Talent:
-
-- Check job descriptions, skill requirements, salary ranges, location, hiring
-  volume, LinkedIn profiles, practitioner accounts, and adjacent titles.
-- Separate exact-title evidence from adjacent-title evidence because titles lag
-  actual work.
-
-Concept, Technology, or Method:
-
-- Check definitions, lineage, canonical papers/docs, implementations,
-  benchmarks, limitations, misuse, competing methods, and deployment evidence.
-- Distinguish benchmark success from real-world usefulness.
-
-Person:
-
-- Check primary profiles, publications, talks, affiliations, track record,
-  conflicts of interest, critics, and dated claims.
-- Avoid overreading biography; tie conclusions to artifacts and actions.
-
-Claim or Metric:
-
-- Identify the original source, definition, methodology, denominator, timeframe,
-  and scope.
-- Build support and attack paths in parallel; close with verdict per subclaim.
-
-Meta-Research or "What Patterns Transfer?":
-
-- Extract recurring mechanisms, boundary conditions, failure modes, analogues,
-  and transferability criteria.
-- Output patterns with "works when / fails when / evidence strength."
-
-Academic or Technical Literature:
-
-- Start with a recent useful survey, then representative recent papers,
-  foundational papers, benchmark/dataset sources, and replication/limitation
-  work.
-- Traverse backward for assumptions, forward for influence, and sideways for
-  competing methods.
-
-Lightweight Scoping Review:
-
-- Define inclusion/exclusion criteria, date range, source databases or search
-  surfaces, screening logic, and synthesis categories.
-- Use when the user needs a transparent map of literature or evidence rather
-  than a single answer.
-
-## Optional Lenses
-
-Use only when helpful; do not force every lens into every answer.
-
-Horizontal / Vertical:
-
-- Horizontal lens: compare across categories, competitors, use cases, regions,
-  methods, or customer segments.
-- Vertical lens: follow one stack, value chain, implementation path, user
-  journey, causal chain, or adoption path in depth.
-
-Perspective decomposition:
-
-- Include perspectives such as buyer, user, operator, regulator, investor,
-  competitor, maintainer, critic, beginner, and expert.
-- Use perspectives to find blind spots and explain why sources disagree.
-
-Competitor scope:
-
-- None: use when the object is standalone, early-stage, or comparison would
-  distract from verification.
-- 1-2 competitors: use for focused purchase, product, company, or career
-  comparisons.
-- 3+ competitors: use for landscape, market map, category strategy, or
-  positioning. Group competitors into segments instead of listing endlessly.
-
-Path-dependence questions:
-
-- What previous choices constrain current options?
-- What switching costs, standards, regulations, data, relationships, or habits
-  make change hard?
-- Which early signals are self-reinforcing, and which are reversible?
-
-Future scenarios:
-
-- Build 2-4 plausible scenarios from drivers, constraints, and uncertainties.
-- Name leading indicators that would make each scenario more likely.
-- Avoid pretending scenarios are forecasts; connect them to evidence.
-
-## Query / Deepening Rules and Evidence Ledger
+### Search Discipline
 
 Use a query ladder:
 
-1. Exact object or claim: names, quoted claims, official source.
-2. Primary artifacts: filings, docs, papers, datasets, repos, standards.
-3. Behavioral signals: pricing, hiring, releases, adoption, procurement.
-4. Operator/lived experience: practitioners, maintainers, forums, reviews.
-5. Adversarial: criticism, limitations, failures, lawsuits, complaints.
-6. Adjacent terms: synonyms, predecessor names, competitors, local language.
-7. Time filters: recent evidence for fast-changing topics; older evidence for
-   origin and path dependence.
+1. Exact object or claim.
+2. Official source and primary artifacts.
+3. History, origin, founder, first release, old names.
+4. Competitors, alternatives, comparisons, market maps.
+5. User reviews, issues, forums, practitioner posts.
+6. Criticism, limitation, lawsuit, complaint, failure, debunk.
+7. Local-language and date-filtered searches when region or recency matters.
 
-Search guidance:
+Search in English first for global topics. For region-specific topics, search
+in English and the relevant local language before concluding.
 
-- Use English first for most global topics; add local language for region-
-  specific claims or lived experience.
-- Use exact-match queries for specific claims and broader queries for field maps.
-- Use site/domain filters for known primary sources.
-- Prefer high-information sources over many low-information URLs.
-- Record failed searches when the absence of evidence matters.
+### Sufficiency Check
 
-Evidence ledger fields, inline or in a durable artifact:
+Do not proceed to final synthesis until you can answer:
 
-| Claim / Lead | Evidence | Source Class | Quality | Date | Supports / Weakens | Caveat | Next Step |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+- Vertical: can the history be told as causal stages rather than a timeline?
+- Horizontal: is the comparison set complete enough for the user's decision?
+- Challenge: what is the strongest reason the emerging thesis may be wrong?
+- Evidence: are key facts supported by reliable sources with dates?
 
-Use an evidence matrix in Deep mode or when many subclaims/options must be
-compared. In Quick mode, keep the ledger mentally or as a short bullet list.
+## 2. Vertical Analysis
 
-## Challenge Rules
+The vertical axis is a causal story, not a chronology dump.
 
-Challenge is mandatory before final synthesis.
+Cover:
 
-Challenge prompts:
+- Origin background: era, market, technical context, social context.
+- Founders, authors, maintainers, or early advocates and why they mattered.
+- Initial form: what it was at birth and how that differs from today.
+- Key timeline: events that changed direction, not every minor update.
+- Stage division: natural phases with their core feature and core tension.
+- Decision logic: why A was chosen over B at important moments.
+- Path dependence: what became hard to reverse because of early choices.
+- Missing history: unresolved gaps or information that could not be found.
 
-- What source class most disagrees with the current view?
-- Who benefits from overstating the thesis?
-- Who benefits from attacking it?
-- Did official narrative and operator/lived reality both get checked?
-- Did behavioral or market evidence confirm the narrative?
-- What would falsify the key claim?
-- Is the signal marketing, selection bias, survivorship bias, or measurement
-  artifact?
-- Does the conclusion still hold for the relevant geography, timeframe, user
-  segment, or deployment context?
+Use this structure internally:
 
-Challenge searches:
+```text
+Origin -> Birth -> Key Nodes -> Phases -> Decisions -> Path Dependence
+```
 
-- `"{object or claim}" criticism OR limitation OR failure`
-- `"{object or claim}" lawsuit OR complaint OR controversy`
-- `"{object or claim}" reddit OR forum OR blind OR glassdoor`
-- `"{metric or claim}" methodology OR source OR denominator`
-- `"{method or product}" benchmark OR replication OR comparison`
-- `"{company}" layoffs OR churn OR short report OR allegations`
+Good vertical writing explains why each step made the next step more likely.
+Avoid "in 2022 this happened, in 2023 that happened" unless the causal link is
+clear.
 
-When challenge evidence is weak, say so. Do not invent balance where one side
-has much better evidence.
+## 3. Horizontal Analysis
 
-## Synthesis Rules
+The horizontal axis is a current-time comparison. It explains what the object
+is competing with, replacing, joining, or being confused with.
 
-Use verdict labels consistently:
+First decide competitor scope:
 
-- Confirmed: supported by multiple credible source classes.
-- Likely: supported, but with gaps or limits.
-- Contested: credible evidence exists on both sides.
-- Not supported: credible backing is missing or contradicted.
-- Unresolved: insufficient evidence to judge.
+- No direct peer: explain why. Is it too new, too niche, legally protected, too
+  small, or not actually a standalone category? Compare substitutes and likely
+  future entrants instead.
+- 1-2 peers: compare each deeply.
+- 3+ peers: choose the 3-5 most representative and group the rest by segment.
 
-For each major conclusion include:
+Compare on dimensions that matter for the object type:
 
-- Verdict label.
-- Evidence basis and strongest source classes.
-- Confidence: high, medium, or low.
-- Key caveat or contradiction.
-- What could change the view.
+- Core method, product form, business model, technical route, or theory.
+- Target user, buyer, community, geography, and use case.
+- Pricing, distribution, funding, ecosystem, data, regulation, or switching
+  cost.
+- Strengths, weaknesses, adoption signals, user complaints, and operator view.
+- Gap between official positioning and actual use.
 
-Confidence guidance:
+Do not write a parameter table in prose. Explain what each peer has "become" in
+practice and why users, buyers, researchers, or employers choose it.
 
-- High: primary/artifact evidence plus independent behavioral or human signal,
-  with challenge path checked.
-- Medium: credible support but partial triangulation, dated evidence, or scope
-  limits.
-- Low: sparse, indirect, anecdotal, promotional, or fast-changing evidence.
+## 4. Cross-Axis Insight
 
-Synthesis should separate:
+This is the most important section. It must not summarize the vertical and
+horizontal sections. It must combine them.
 
-- What is known.
-- What is inferred.
-- What is contested.
-- What is still unknown.
-- What action or decision follows, if the user asked for one.
+Answer:
 
-## Output Shapes
+1. Which historical decisions created today's position?
+2. Which current strengths have historical roots?
+3. Which current weaknesses are old decisions becoming liabilities?
+4. How did competitors' different histories produce different positions?
+5. What public narrative is contradicted by user behavior or artifacts?
+6. Which risks are structural, and which are temporary?
+7. What evidence would change the judgment?
 
-Default answer shape:
+For future judgment, produce 2-4 scenarios only when useful:
+
+- Most likely scenario.
+- Most dangerous scenario.
+- Most optimistic scenario.
+- Leading indicators that would make each scenario more likely.
+
+Scenarios are not forecasts. Tie each to evidence from the vertical and
+horizontal axes.
+
+## 5. Object-Type Adaptation
+
+Keep the double-axis method unchanged, but shift emphasis by object type.
+
+Product:
+
+- Vertical: version history, technical route, UX decisions, distribution,
+  pricing, customer adoption, major incidents.
+- Horizontal: feature fit, user experience, pricing, switching cost, ecosystem,
+  issue trackers, reviews, competitors and substitutes.
+
+Company:
+
+- Vertical: founding team, financing, pivots, leadership, org changes, growth,
+  layoffs, strategic partnerships, crises.
+- Horizontal: business model, customers, market role, hiring reality, revenue
+  signals, legal risk, competitor positioning.
+
+Concept or Technology:
+
+- Vertical: origin, theoretical lineage, early debates, diffusion path,
+  canonical papers/docs, implementation history.
+- Horizontal: adjacent concepts, competing methods, benchmarks, real-world
+  deployment, limitations, misuse.
+
+Person:
+
+- Vertical: background, career stages, key decisions, public statements,
+  output, affiliations, turning points.
+- Horizontal: peers, influence, track record, incentives, critics, concrete
+  artifacts and actions.
+
+Market or Career:
+
+- Vertical: how the field or role emerged, what changed demand, which titles or
+  skills are new vs renamed.
+- Horizontal: segments, employers, compensation, hiring volume, adjacent roles,
+  real day-to-day work, entry paths, hidden requirements.
+
+Academic or Literature Review:
+
+- Vertical: foundational work, method lineage, major papers, benchmark history,
+  paradigm shifts.
+- Horizontal: current methods, datasets, leaderboards, replications,
+  limitations, deployment gap.
+
+Claim or Metric:
+
+- Vertical: where the claim originated, how it spread, what context was lost.
+- Horizontal: independent data, methodology, denominator, comparable metrics,
+  rebuttals, incentives.
+- Verdict must be one of: Confirmed, Likely, Contested, Not supported,
+  Unresolved.
+
+## 6. Evidence and Citation Rules
+
+For every important source, capture:
+
+- Title or source name.
+- Author, organization, or platform.
+- Publication date; access date for unstable topics.
+- URL or local file path.
+- Source class: official, behavioral, operator, lived experience, adversarial,
+  market proxy, or artifact.
+- What the source proves and what it does not prove.
+
+Quality markers:
+
+- `✓` primary, artifact, close-to-source, or independently verifiable.
+- `?` secondary, partial, dated, anecdotal, or context-limited.
+- `✗` contradicted, promotional, weak, or methodologically unclear.
+
+Citation behavior:
+
+- Cite claims near where they appear.
+- Prefer original sources over summaries.
+- Do not cite snippets as if they were full sources.
+- If sources disagree, cite both sides and explain why.
+- Mark unavailable information explicitly. Never invent.
+
+## 7. Output Structure
+
+For quick tasks, answer in compact form:
 
 ```markdown
 ## Bottom Line
-[answer, verdict, confidence]
+[judgment, confidence, and why it matters]
 
-## Evidence
-[key findings with citations and source classes]
+## Vertical Signal
+[history or origin pattern that matters]
 
-## Caveats / Challenge
-[contradictions, missing evidence, incentive issues]
+## Horizontal Signal
+[current comparison / alternatives / user reality]
 
-## What Could Change This
-[specific evidence or events]
+## Cross-Axis Judgment
+[what the combination reveals]
+
+## Caveats
+[missing evidence, contradictions, what would change the view]
+
+## Sources
+[key citations with quality markers]
 ```
 
-Research Brief shape:
+For deep research, use:
 
 ```markdown
-# Research Brief: {topic}
+# Research: {object}
 
-## Frame
-[question, scope, claims, stakeholders, criteria]
+## One-Sentence Definition
+[what it is and why it matters]
 
-## Field Map
-[actors, source classes, debates, blind spots]
+## Research Frame
+[object type, user intent, scope, focus, evidence standard]
 
-## Evidence Ledger
-[claim/lead, evidence, source class, quality, date, caveat]
+## Vertical Analysis: How It Got Here
+[origin, birth, key nodes, phases, decisions, path dependence]
 
-## Challenge
-[best contrary evidence and unresolved tensions]
+## Horizontal Analysis: Where It Stands Now
+[comparison set, dimensions, user/operator reality, competitive position]
 
-## Synthesis
-[verdict labels, confidence, implications, what could change the view]
+## Cross-Axis Insight
+[history shaping position, strengths/weaknesses roots, contradictions, scenarios]
 
-## References
-[metadata-rich citations]
+## Verdict
+[confirmed/likely/contested/not supported/unresolved claims, confidence]
+
+## Sources
+[metadata-rich citations with quality markers]
 ```
 
-Variant emphasis:
+## 8. Writing Standards
 
-- Claim verification: subclaims, evidence for/against, incentive analysis,
-  verdict per subclaim and overall.
-- Company/product diligence: narrative, artifacts, behavioral signals, user or
-  operator reality, risks, competitor context, bottom-line judgment.
-- Market/career scan: segments or roles, demand signals, repeated patterns vs
-  anecdotes, opportunity/risk ranking, confidence.
-- Academic/literature review: literature map, methods, benchmark context,
-  limitations, open problems, state-of-the-art judgment.
-- Meta-research: patterns, transferability, boundary conditions, failure modes,
-  analogues, evidence strength.
-- Future scenarios: drivers, constraints, scenarios, indicators, implications.
+Write like a rigorous research report that a real decision-maker can finish.
 
-## Done Criteria and Anti-Patterns
+- Use concrete details instead of generic consulting language.
+- Put facts before judgment; mark inference as inference.
+- Prefer causal explanation over list-making.
+- Do not hide uncertainty behind polished prose.
+- Avoid filler phrases such as "it is worth noting", "in today's fast-changing
+  world", "empower", "closed loop", "obviously", or "in summary".
+- Use specific names, dates, numbers, documents, and examples when available.
+- If something cannot be found, say it is not found.
 
-Done when:
+## 9. Quality Checklist
 
-- The decision question is answered or explicitly unresolved.
-- Main claims are attached to high-value sources with dates/metadata.
-- Support and challenge paths were both explored.
-- Relevant source classes were sampled or missing classes are named.
-- Important conclusions are triangulated or marked as not triangulated.
-- New searches mostly repeat known nodes.
-- Remaining frontier items are peripheral or clearly listed.
+Before final output, check:
 
-Not done when:
-
-- Only the supporting story was explored.
-- The synthesis depends on snippets or summaries.
-- Official and community narratives sharply disagree without resolution.
-- No opposing incentives or falsification path were considered.
-- Dates, geography, sample, or methodology are unclear for key evidence.
-- Social anecdotes are treated as truth without triangulation.
-- Market-size, benchmark, or title claims are accepted without definitions.
-
-Anti-patterns:
-
-- Creating a research file by default when a concise answer would serve.
-- URL hoarding without source-class diversity.
-- Treating recency as quality or age as irrelevance.
-- Collapsing "users say," "company says," and "data shows" into one claim.
-- Ignoring local/user-provided material in favor of public web search.
-- Overfitting to one competitor, one geography, one platform, or one anecdote.
-- Forcing certainty when the honest answer is contested or unresolved.
+- Is there a clear vertical story with causal stages?
+- Are key events and decisions sourced?
+- Is the horizontal comparison set appropriate, not arbitrary?
+- Did user/operator reality get checked, not just official narrative?
+- Did at least one challenge path run against the main thesis?
+- Are source dates visible for time-sensitive claims?
+- Are important conclusions triangulated or explicitly marked as not
+  triangulated?
+- Does the cross-axis section produce new judgment instead of repeating earlier
+  sections?
+- Are confidence and "what would change the view" explicit?
+- Did the answer avoid inventing missing facts?

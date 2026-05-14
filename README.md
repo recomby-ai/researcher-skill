@@ -2,10 +2,10 @@
 
 A single standalone research skill for Claude Code / Codex.
 
-One self-contained skill file, with all research modes and tactics consolidated.
+One self-contained skill file built around a single research spine.
 
 ```text
-FRAME → MAP → FRONTIER → DEEPEN → CHALLENGE → SYNTHESIZE
+VERTICAL history + HORIZONTAL comparison -> CROSS-AXIS judgment
 ```
 
 English | [中文](README.zh-CN.md)
@@ -35,44 +35,39 @@ One consolidated research skill:
 
 ```text
 researcher/
-└── skills.md                         ← full research engine + playbooks
+└── skills.md                         ← horizontal-vertical research method
 ```
 
-**skills.md** contains the full research methodology: the six-phase cycle,
-quick/standard/deep modes, source-class taxonomy, citation and metadata rules,
-local-material handling, object-type playbooks, optional horizontal/vertical
-lenses, evidence ledger, challenge discipline, synthesis rules, and output
-templates.
+**skills.md** contains the full method: preparation, information collection,
+vertical history, horizontal comparison, cross-axis insight, object-type
+adaptation, evidence and citation rules, output structure, writing standards,
+and a final quality checklist.
 
 ## Core Design
 
-### 1. Evidence-first, not webpage-first
+### 1. One Core Method
 
-The skill treats the internet as a mixed evidence environment:
+The skill is not a pile of research tactics. Every investigation follows one
+structure:
 
-- official — what institutions say
-- behavioral — what they actually do
-- operator — what experienced people say
-- lived experience — what practitioners report in forums and social
-- adversarial — short reports, critics, lawsuits, complaints
-- market proxy — hiring, pricing, adoption, fundraising signals
-- artifact — papers, repos, docs, datasets, filings
+- Vertical axis: how the object became what it is.
+- Horizontal axis: where it stands now among peers, substitutes, users, and
+  incentives.
+- Cross-axis judgment: what the combination reveals.
 
-### 2. Broad first pass, then controlled depth
+### 2. Evidence Supports the Axes
 
-The first round is not "search until you can summarize." It is:
+Evidence work is organized around the two axes instead of accumulated for its
+own sake. The skill still distinguishes official, behavioral, operator, lived
+experience, adversarial, market proxy, and artifact sources.
 
-- a controlled breadth-first map (4-6 searches)
-- followed by a frontier of 2-4 active leads
-- followed by lead-driven deepening
+### 3. Challenge Before Judgment
 
-### 3. Mandatory challenge paths
+Every strong thesis must be attacked before synthesis: criticism, failed cases,
+methodology issues, adversarial sources, incentives, and behavioral evidence
+all matter.
 
-Every strong thesis must run a challenge path before synthesis. The skill
-requires checking opposing incentives, adversarial sources, and behavioral
-evidence before concluding.
-
-### 4. Adaptive output
+### 4. Adaptive Output
 
 The skill defaults to a concise chat answer. It creates a durable research
 artifact only when the user asks for one, provides an output path, or the work
@@ -111,6 +106,7 @@ self-contained.
 ```text
 Use $researcher to map the AI agent engineering job market.
 Use $researcher to verify whether this industry claim is actually true.
+Use $researcher to do a horizontal-vertical analysis of this product.
 Use $researcher to compare quant, AI infrastructure, and applied ML for a math undergraduate.
 Use $researcher to find the strongest opportunities in vertical AI.
 Use $researcher to stress-test this startup before I take the offer.

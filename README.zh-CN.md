@@ -2,10 +2,10 @@
 
 一个单独可安装的 research skill，给 Claude Code / Codex 用。
 
-一个自包含 skill 文件，所有研究模式和战术都合并在里面。
+一个自包含 skill 文件，围绕一条清晰研究主轴展开。
 
 ```text
-FRAME → MAP → FRONTIER → DEEPEN → CHALLENGE → SYNTHESIZE
+纵轴历史 + 横轴对比 -> 横纵交汇判断
 ```
 
 [English](README.md) | 中文
@@ -35,39 +35,30 @@ FRAME → MAP → FRONTIER → DEEPEN → CHALLENGE → SYNTHESIZE
 
 ```text
 researcher/
-└── skills.md                         ← 完整研究引擎 + playbooks
+└── skills.md                         ← 横纵分析研究方法
 ```
 
-**skills.md** 包含完整研究方法论：六阶段循环、quick/standard/deep 模式、
-证据分类体系、引用和 metadata 规则、本地材料处理、对象类型 playbooks、
-可选横纵分析 lens、证据 ledger、反证纪律、综合判断规则和输出模板。
+**skills.md** 包含完整方法：前置准备、信息收集、纵轴分析、横轴分析、横纵交汇洞察、
+对象类型适配、证据和引用规则、输出结构、写作标准和最终质检清单。
 
 ## 设计核心
 
-### 1. 先看证据类型，不是先堆网页
+### 1. 一个核心方法
 
-这个 skill 把互联网看成一个混合证据环境：
+这个 skill 不是研究技巧堆叠。每次研究都按一条主线走：
 
-- official — 机构怎么说
-- behavioral — 实际怎么做
-- operator — 有经验的人怎么说
-- lived experience — 从业者在论坛、社交上怎么报告
-- adversarial — 做空报告、批评者、诉讼、投诉
-- market proxy — 招聘、定价、融资、采用率信号
-- artifact — 论文、代码、文档、数据集、法律文件
+- 纵轴：它是怎么一步步变成今天这样的。
+- 横轴：它现在在同类、替代品、用户和利益关系里处在什么位置。
+- 交汇判断：纵轴和横轴合在一起揭示了什么。
 
-### 2. 先广度建图，再受控深挖
+### 2. 证据服务于两条轴
 
-第一轮不是"搜到够总结就停"。而是：
+证据不是为了堆来源，而是为了支撑纵轴和横轴。skill 仍然区分 official、
+behavioral、operator、lived experience、adversarial、market proxy、artifact 等来源。
 
-- 有控制的 breadth-first map（4-6 次搜索）
-- 然后建立 2-4 条 active frontier
-- 再按线索驱动继续深挖
+### 3. 判断前必须反证
 
-### 3. 强制反证路径
-
-每个强 thesis 必须先跑 challenge path 才能合成结论。skill 要求检查对立动机、
-对抗性来源、和行为证据之后才能下结论。
+每个强 thesis 都要先被攻击：批评、失败案例、方法问题、对抗来源、利益动机和行为证据都要看。
 
 ### 4. 自适应输出
 
@@ -106,6 +97,7 @@ cp researcher-skill/researcher/skills.md ~/.codex/skills/researcher/SKILL.md
 ```text
 Use $researcher to map the AI agent engineering job market.
 Use $researcher to verify whether this industry claim is actually true.
+Use $researcher to do a horizontal-vertical analysis of this product.
 Use $researcher to compare quant, AI infrastructure, and applied ML for a math undergraduate.
 Use $researcher to find the strongest opportunities in vertical AI.
 Use $researcher to stress-test this startup before I take the offer.
