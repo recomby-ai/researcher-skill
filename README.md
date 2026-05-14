@@ -43,6 +43,9 @@ vertical history, horizontal comparison, cross-axis insight, object-type
 adaptation, evidence and citation rules, output structure, writing standards,
 and a final quality checklist.
 
+The skill body is written in Chinese for readability. The YAML metadata keeps
+English trigger terms so English research prompts can still route to it.
+
 ## Core Design
 
 ### 1. One Core Method

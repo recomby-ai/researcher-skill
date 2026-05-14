@@ -1,14 +1,12 @@
 ---
 name: researcher
 description: >
-  Horizontal-Vertical Research skill for systematic investigation of a product,
-  company, market, concept, technology, person, career path, academic topic, or
-  factual claim. Use when the user asks to research, investigate, analyze,
-  compare, verify, fact check, do due diligence, map a field, review literature,
-  understand the real story, or judge whether something is worth believing or
-  pursuing. Also trigger on 研究, 调研, 分析, 深挖, 横纵分析, 竞品分析,
-  尽职调查, 核实, 验证, 这个靠谱吗, 真实情况是什么, 有没有前景,
-  值不值得, 到底怎么样, 是真的吗.
+  横纵分析研究 skill，用于系统研究产品、公司、市场、概念、技术、人物、职业路径、
+  学术主题或事实声明。适用于 research, investigate, analyze, compare, verify,
+  fact check, due diligence, market landscape, literature review, deep dive,
+  研究, 调研, 分析, 深挖, 横纵分析, 竞品分析, 尽职调查, 核实, 验证,
+  这个靠谱吗, 真实情况是什么, 有没有前景, 值不值得, 到底怎么样,
+  是真的吗 等请求。核心方法是：纵轴追历史，横轴做对比，最后在交汇处给出判断。
 argument-hint: <research object or question / 研究对象或问题>
 allowed-tools:
   - WebSearch
@@ -17,357 +15,326 @@ allowed-tools:
   - Write
 ---
 
-# Horizontal-Vertical Research
+# 横纵分析研究法
 
-This skill has one core method:
+这个 skill 只有一个核心方法：
 
 ```text
-VERTICAL history + HORIZONTAL comparison -> CROSS-AXIS judgment
+纵轴历史 + 横轴对比 -> 横纵交汇判断
 ```
 
-The vertical axis explains how the object became what it is. The horizontal
-axis explains where it stands now among peers, substitutes, users, incentives,
-and evidence classes. The cross-axis section is the point of the work: explain
-how history shaped the current position, what is real vs overstated, and what
-is likely to happen next.
+纵轴回答：这个东西是怎么一步步变成今天这样的。
+横轴回答：它现在在同类、替代品、用户、利益关系和证据环境里处在什么位置。
+交汇判断回答：历史如何塑造当下，哪些是真的，哪些被夸大，接下来最可能怎么变。
 
-Do not turn research into source hoarding. Every search, note, and source must
-serve one of the two axes or the final judgment.
+不要把研究做成来源囤积。每一次搜索、每一条笔记、每一个来源，都必须服务于纵轴、
+横轴，或最后的交汇判断。
 
-## 0. Preparation
+## 0. 前置准备
 
-Before searching, identify:
+开始搜索前，先明确：
 
-1. Research object: product, company, concept, technology, person, market,
-   career path, academic topic, or claim.
-2. User intent: understand, compare, decide, verify, invest, join, buy, build,
-   or write a report.
-3. Scope: geography, timeframe, audience, depth, exclusions, and output form.
-4. Known focus: what the user cares about most.
-5. Evidence that would change the answer.
+1. 研究对象：产品、公司、概念、技术、人物、市场、职业路径、学术主题或具体声明。
+2. 用户意图：了解、比较、决策、验证、投资、入职、购买、构建，还是写报告。
+3. 研究范围：地区、时间段、受众、深度、排除项和输出形式。
+4. 重点关注：用户最关心的方向。
+5. 改变结论所需的证据：什么证据会让当前判断发生变化。
 
-If the object and intent are already clear, do not ask. Start.
+如果研究对象和意图已经足够明确，不要追问，直接开始。
 
-User-provided files, links, notes, transcripts, or datasets are primary context.
-Read them before broad web search when they define the task. Distinguish facts
-from provided material, facts externally corroborated, and facts contradicted by
-external evidence.
+用户提供的文件、链接、笔记、访谈、数据集或已有研究是一等来源。只要这些材料定义了
+任务，就先读它们，再做外部搜索。区分三类事实：来自用户材料、已被外部证据印证、
+被外部证据挑战或否定。
 
-Default output is a chat answer. Create a durable Markdown artifact only when
-the user asks for one, gives an output path, or the research is too large to be
-useful inline.
+默认输出是聊天回答。只有在用户明确要求、给出输出路径，或研究内容太大不适合
+内联呈现时，才创建持久化 Markdown 文档。
 
-## 1. Information Collection
+## 1. 信息收集
 
-Collect information in three lanes. Keep them separate until synthesis.
+信息收集分三条线。合成之前，三条线要分开看。
 
-### Lane A: Vertical Information
+### A 线：纵轴信息
 
-Find the object's origin and development:
+寻找研究对象的起源和演化：
 
-- Who created or first proposed it?
-- What problem, theory, market gap, or personal background produced it?
-- What was the first public version, founding moment, or canonical statement?
-- What major versions, funding events, papers, releases, controversies,
-  personnel changes, pivots, or regulatory shifts changed its path?
-- Which early decisions locked in later constraints?
+- 谁创造、提出或推动了它？
+- 它诞生时要解决什么问题、理论缺口、市场空白或个人动机？
+- 它最早的公开版本、成立时刻或经典表述是什么？
+- 哪些版本更新、融资、论文、发布、争议、人事变化、转型或监管事件改变了它的路径？
+- 哪些早期选择锁定了后来的约束？
 
-### Lane B: Horizontal Information
+### B 线：横轴信息
 
-Find the current comparison set:
+寻找当下的对比集合：
 
-- Direct competitors or peers.
-- Indirect substitutes and older ways of solving the same problem.
-- Adjacent concepts, methods, companies, roles, or communities.
-- User/operator sentiment and actual usage patterns.
-- Market, hiring, pricing, adoption, benchmark, or deployment signals.
+- 直接竞品或同类。
+- 间接替代品，以及上一代解决方案。
+- 相邻概念、方法、公司、角色或社区。
+- 用户和从业者的真实反馈与实际使用方式。
+- 市场、招聘、定价、采用率、基准测试或部署信号。
 
-### Lane C: Challenge Information
+### C 线：反证信息
 
-Actively seek what could weaken the emerging story:
+主动寻找能削弱当前叙事的证据：
 
-- Criticism, failed cases, lawsuits, complaints, short reports, rebuttals.
-- Benchmark limitations, replication failures, stale data, bad methodology.
-- Incentives to exaggerate, hide problems, or attack unfairly.
-- Evidence that the public narrative is marketing rather than reality.
+- 批评、失败案例、诉讼、投诉、做空报告、反驳。
+- benchmark 局限、复现失败、过期数据、方法问题。
+- 谁有动机夸大、掩盖问题，或不公平地攻击它。
+- 公共叙事是否只是营销，行为证据是否支持它。
 
-### Source Priority
+### 来源优先级
 
-Prefer source-proximate evidence:
+优先使用离事实更近的来源：
 
-| Information Need | Strong Sources |
+| 信息需求 | 强来源 |
 | --- | --- |
-| Product changes | Official docs, changelog, release notes, GitHub commits/issues |
-| Company/business facts | Filings, official announcements, investor material, pricing, hiring |
-| User reality | Forums, reviews, GitHub issues, Reddit, X, LinkedIn, Blind, interviews |
-| Technical or academic claims | Papers, benchmarks, datasets, repos, model/dataset cards |
-| Market or career claims | Job posts, salary data, procurement, adoption, layoffs, profiles |
-| Controversy or risk | Lawsuits, complaints, short reports, regulator actions, rebuttals |
+| 产品变化 | 官方文档、changelog、release notes、GitHub commits/issues |
+| 公司和商业事实 | 法定文件、官方公告、投资人材料、定价、招聘 |
+| 用户真实体验 | 论坛、评论、GitHub issues、Reddit、X、LinkedIn、Blind、访谈 |
+| 技术或学术声明 | 论文、基准测试、数据集、代码仓库、模型卡、数据集卡 |
+| 市场或职业声明 | 招聘信息、薪资数据、采购、采用率、裁员、LinkedIn profile |
+| 争议和风险 | 诉讼、投诉、做空报告、监管行动、反驳材料 |
 
-One source class is not enough for an important conclusion. Try to combine:
+重要结论不能只靠单一来源类型。尽量组合：
 
-- One official or artifact source.
-- One behavioral or market source.
-- One human or adversarial source.
+- 一个官方来源或实物证据来源。
+- 一个行为证据或市场信号。
+- 一个真人经验来源或反证来源。
 
-If triangulation is impossible, state which evidence class is missing.
+如果无法三角验证，明确说缺了哪类证据。
 
-### Search Discipline
+### 搜索纪律
 
-Use a query ladder:
+按这个查询阶梯推进：
 
-1. Exact object or claim.
-2. Official source and primary artifacts.
-3. History, origin, founder, first release, old names.
-4. Competitors, alternatives, comparisons, market maps.
-5. User reviews, issues, forums, practitioner posts.
-6. Criticism, limitation, lawsuit, complaint, failure, debunk.
-7. Local-language and date-filtered searches when region or recency matters.
+1. 精确对象或精确声明。
+2. 官方来源和一手 artifact。
+3. 历史、起源、创始人、首次发布、旧名称。
+4. 竞品、替代品、对比、市场地图。
+5. 用户评论、issue、论坛、从业者文章。
+6. 批评、局限、诉讼、投诉、失败、debunk。
+7. 当地区或时效性重要时，加入本地语言和时间过滤。
 
-Search in English first for global topics. For region-specific topics, search
-in English and the relevant local language before concluding.
+全球性话题优先用英文搜索。地区性话题要同时搜索英文和相关本地语言，再下结论。
 
-### Sufficiency Check
+### 信息充分性检查
 
-Do not proceed to final synthesis until you can answer:
+进入最终综合前，必须能回答：
 
-- Vertical: can the history be told as causal stages rather than a timeline?
-- Horizontal: is the comparison set complete enough for the user's decision?
-- Challenge: what is the strongest reason the emerging thesis may be wrong?
-- Evidence: are key facts supported by reliable sources with dates?
+- 纵轴：能不能讲出带因果阶段的历史，而不是流水账时间线？
+- 横轴：对比集合是否足够支撑用户的决策？
+- 反证：当前 thesis 最强的反对理由是什么？
+- 证据：关键事实是否有可靠来源和日期支撑？
 
-## 2. Vertical Analysis
+## 2. 纵轴分析
 
-The vertical axis is a causal story, not a chronology dump.
+纵轴是一条因果故事，不是年表。
 
-Cover:
+必须覆盖：
 
-- Origin background: era, market, technical context, social context.
-- Founders, authors, maintainers, or early advocates and why they mattered.
-- Initial form: what it was at birth and how that differs from today.
-- Key timeline: events that changed direction, not every minor update.
-- Stage division: natural phases with their core feature and core tension.
-- Decision logic: why A was chosen over B at important moments.
-- Path dependence: what became hard to reverse because of early choices.
-- Missing history: unresolved gaps or information that could not be found.
+- 起源背景：时代、市场、技术、社会语境。
+- 创始人、作者、维护者或早期推动者，以及他们为什么重要。
+- 初始形态：它诞生时是什么样，和今天有什么不同。
+- 关键节点：只写改变方向的事件，不堆所有小更新。
+- 阶段划分：每个阶段的核心特征和核心矛盾。
+- 决策逻辑：关键节点上为什么选 A，而不是 B。
+- 路径依赖：哪些早期选择让后来的路变得难以逆转。
+- 缺失历史：哪些信息暂缺，仍然无法确认。
 
-Use this structure internally:
+内部结构：
 
 ```text
-Origin -> Birth -> Key Nodes -> Phases -> Decisions -> Path Dependence
+起源 -> 诞生 -> 关键节点 -> 阶段划分 -> 决策逻辑 -> 路径依赖
 ```
 
-Good vertical writing explains why each step made the next step more likely.
-Avoid "in 2022 this happened, in 2023 that happened" unless the causal link is
-clear.
+好的纵轴分析要说明：为什么每一步都会让下一步更可能发生。不要写成“2022 年发生了 A，
+2023 年发生了 B”，除非你能讲清楚 A 和 B 之间的因果关系。
 
-## 3. Horizontal Analysis
+## 3. 横轴分析
 
-The horizontal axis is a current-time comparison. It explains what the object
-is competing with, replacing, joining, or being confused with.
+横轴是当下时间截面的对比。它解释研究对象正在和谁竞争、替代谁、加入哪个生态，
+或经常被误认为是什么。
 
-First decide competitor scope:
+先判断竞品范围：
 
-- No direct peer: explain why. Is it too new, too niche, legally protected, too
-  small, or not actually a standalone category? Compare substitutes and likely
-  future entrants instead.
-- 1-2 peers: compare each deeply.
-- 3+ peers: choose the 3-5 most representative and group the rest by segment.
+- 没有直接竞品：说明原因。是太新、太小众、有法律保护、市场太小，还是它其实不是一个
+  独立品类？改为比较替代方案和未来可能出现的竞争者。
+- 1-2 个竞品：逐一深入比较。
+- 3 个及以上竞品：选 3-5 个最有代表性的重点分析，其余按细分类型归组。
 
-Compare on dimensions that matter for the object type:
+根据对象类型选择真正重要的维度：
 
-- Core method, product form, business model, technical route, or theory.
-- Target user, buyer, community, geography, and use case.
-- Pricing, distribution, funding, ecosystem, data, regulation, or switching
-  cost.
-- Strengths, weaknesses, adoption signals, user complaints, and operator view.
-- Gap between official positioning and actual use.
+- 核心方法、产品形态、商业模式、技术路线或理论路线。
+- 目标用户、买方、社区、地区和使用场景。
+- 定价、分发、融资、生态、数据、监管、切换成本。
+- 优势、短板、采用信号、用户抱怨、从业者看法。
+- 官方定位和实际使用之间的偏差。
 
-Do not write a parameter table in prose. Explain what each peer has "become" in
-practice and why users, buyers, researchers, or employers choose it.
+不要把参数表改写成散文。要解释每个竞品实际“活成了什么样”，以及用户、买家、
+研究者或雇主为什么会选择它。
 
-## 4. Cross-Axis Insight
+## 4. 横纵交汇洞察
 
-This is the most important section. It must not summarize the vertical and
-horizontal sections. It must combine them.
+这是最重要的部分。它不是纵轴和横轴的摘要，而是把两条线合起来产生新的判断。
 
-Answer:
+回答这些问题：
 
-1. Which historical decisions created today's position?
-2. Which current strengths have historical roots?
-3. Which current weaknesses are old decisions becoming liabilities?
-4. How did competitors' different histories produce different positions?
-5. What public narrative is contradicted by user behavior or artifacts?
-6. Which risks are structural, and which are temporary?
-7. What evidence would change the judgment?
+1. 哪些历史决策塑造了今天的位置？
+2. 今天的核心优势分别来自历史上的哪些节点？
+3. 今天的核心弱点是不是某些旧决策变成了包袱？
+4. 竞品的不同历史路径如何造成当下差异？
+5. 哪些公共叙事被用户行为或 artifact 反驳？
+6. 哪些风险是结构性的，哪些只是暂时的？
+7. 什么证据会改变这个判断？
 
-For future judgment, produce 2-4 scenarios only when useful:
+需要判断未来时，给 2-4 个情景即可：
 
-- Most likely scenario.
-- Most dangerous scenario.
-- Most optimistic scenario.
-- Leading indicators that would make each scenario more likely.
+- 最可能的情景。
+- 最危险的情景。
+- 最乐观的情景。
+- 每个情景的领先指标。
 
-Scenarios are not forecasts. Tie each to evidence from the vertical and
-horizontal axes.
+情景不是预测。每个情景都必须能从纵轴和横轴证据里推出。
 
-## 5. Object-Type Adaptation
+## 5. 不同对象的适配
 
-Keep the double-axis method unchanged, but shift emphasis by object type.
+双轴方法不变，只调整重点。
 
-Product:
+产品：
 
-- Vertical: version history, technical route, UX decisions, distribution,
-  pricing, customer adoption, major incidents.
-- Horizontal: feature fit, user experience, pricing, switching cost, ecosystem,
-  issue trackers, reviews, competitors and substitutes.
+- 纵轴：版本历史、技术路线、体验决策、分发、定价、客户采用、重大事故。
+- 横轴：功能匹配、用户体验、定价、切换成本、生态、issue tracker、评论、竞品和替代品。
 
-Company:
+公司：
 
-- Vertical: founding team, financing, pivots, leadership, org changes, growth,
-  layoffs, strategic partnerships, crises.
-- Horizontal: business model, customers, market role, hiring reality, revenue
-  signals, legal risk, competitor positioning.
+- 纵轴：创始团队、融资、转型、领导层、组织变化、增长、裁员、战略合作、危机。
+- 横轴：商业模式、客户、市场位置、招聘现实、收入信号、法律风险、竞品定位。
 
-Concept or Technology:
+概念或技术：
 
-- Vertical: origin, theoretical lineage, early debates, diffusion path,
-  canonical papers/docs, implementation history.
-- Horizontal: adjacent concepts, competing methods, benchmarks, real-world
-  deployment, limitations, misuse.
+- 纵轴：起源、理论谱系、早期争论、传播路径、经典论文/文档、实现历史。
+- 横轴：相邻概念、竞争方法、基准测试、真实部署、局限、误用。
 
-Person:
+人物：
 
-- Vertical: background, career stages, key decisions, public statements,
-  output, affiliations, turning points.
-- Horizontal: peers, influence, track record, incentives, critics, concrete
-  artifacts and actions.
+- 纵轴：背景、职业阶段、关键决策、公开言论、产出、从属关系、转折点。
+- 横轴：同领域人物、影响力、履历兑现度、利益动机、批评者、具体作品和行动。
 
-Market or Career:
+市场或职业：
 
-- Vertical: how the field or role emerged, what changed demand, which titles or
-  skills are new vs renamed.
-- Horizontal: segments, employers, compensation, hiring volume, adjacent roles,
-  real day-to-day work, entry paths, hidden requirements.
+- 纵轴：领域或角色如何出现，需求因何变化，哪些 title 或技能是真新增，哪些只是改名。
+- 横轴：细分市场、雇主、薪酬、招聘量、相邻角色、真实日常、进入路径、隐藏要求。
 
-Academic or Literature Review:
+学术或文献综述：
 
-- Vertical: foundational work, method lineage, major papers, benchmark history,
-  paradigm shifts.
-- Horizontal: current methods, datasets, leaderboards, replications,
-  limitations, deployment gap.
+- 纵轴：奠基工作、方法谱系、重要论文、基准测试历史、范式转移。
+- 横轴：当前方法、数据集、排行榜、复现、局限、部署差距。
 
-Claim or Metric:
+声明或指标：
 
-- Vertical: where the claim originated, how it spread, what context was lost.
-- Horizontal: independent data, methodology, denominator, comparable metrics,
-  rebuttals, incentives.
-- Verdict must be one of: Confirmed, Likely, Contested, Not supported,
-  Unresolved.
+- 纵轴：声明从哪里来，如何传播，传播中丢失了什么上下文。
+- 横轴：独立数据、方法论、分母、可比指标、反驳、利益动机。
+- 结论必须使用以下标签之一：已确认、较可能、有争议、不支持、无法判断。
 
-## 6. Evidence and Citation Rules
+## 6. 证据和引用规则
 
-For every important source, capture:
+每个重要来源都要记录：
 
-- Title or source name.
-- Author, organization, or platform.
-- Publication date; access date for unstable topics.
-- URL or local file path.
-- Source class: official, behavioral, operator, lived experience, adversarial,
-  market proxy, or artifact.
-- What the source proves and what it does not prove.
+- 标题或来源名称。
+- 作者、机构、平台。
+- 发布时间；不稳定话题还要记录访问时间。
+- URL 或本地文件路径。
+- 来源类型：官方、行为证据、从业者、真实体验、反证、市场信号、实物证据。
+- 这个来源能证明什么，不能证明什么。
 
-Quality markers:
+质量标记：
 
-- `✓` primary, artifact, close-to-source, or independently verifiable.
-- `?` secondary, partial, dated, anecdotal, or context-limited.
-- `✗` contradicted, promotional, weak, or methodologically unclear.
+- `✓` 一手、实物证据、接近事实源、可独立验证。
+- `?` 二手、部分信息、过期、轶事、上下文有限。
+- `✗` 被反驳、宣传性强、证据弱、方法不清。
 
-Citation behavior:
+引用行为：
 
-- Cite claims near where they appear.
-- Prefer original sources over summaries.
-- Do not cite snippets as if they were full sources.
-- If sources disagree, cite both sides and explain why.
-- Mark unavailable information explicitly. Never invent.
+- 在论点附近引用，不要只在末尾堆链接。
+- 优先原始来源，而不是摘要。
+- 不要把搜索摘要当作完整来源引用。
+- 来源冲突时，两边都引用，并解释为什么冲突。
+- 找不到的信息明确标注“暂未找到”。不要编造。
 
-## 7. Output Structure
+## 7. 输出结构
 
-For quick tasks, answer in compact form:
+快速任务使用紧凑结构：
 
 ```markdown
-## Bottom Line
-[judgment, confidence, and why it matters]
+## 底线判断
+[判断、置信度、为什么重要]
 
-## Vertical Signal
-[history or origin pattern that matters]
+## 纵轴信号
+[重要历史或起源模式]
 
-## Horizontal Signal
-[current comparison / alternatives / user reality]
+## 横轴信号
+[当前对比、替代品、用户现实]
 
-## Cross-Axis Judgment
-[what the combination reveals]
+## 横纵交汇判断
+[两条线合起来揭示了什么]
 
-## Caveats
-[missing evidence, contradictions, what would change the view]
+## 注意事项
+[缺失证据、矛盾、什么会改变判断]
 
-## Sources
-[key citations with quality markers]
+## 来源
+[关键引用和质量标记]
 ```
 
-For deep research, use:
+深度研究使用：
 
 ```markdown
-# Research: {object}
+# 研究：{object}
 
-## One-Sentence Definition
-[what it is and why it matters]
+## 一句话定义
+[它是什么，为什么重要]
 
-## Research Frame
-[object type, user intent, scope, focus, evidence standard]
+## 研究框架
+[对象类型、用户意图、范围、重点、证据标准]
 
-## Vertical Analysis: How It Got Here
-[origin, birth, key nodes, phases, decisions, path dependence]
+## 纵轴分析：它如何走到今天
+[起源、诞生、关键节点、阶段、决策、路径依赖]
 
-## Horizontal Analysis: Where It Stands Now
-[comparison set, dimensions, user/operator reality, competitive position]
+## 横轴分析：它现在站在哪里
+[对比集合、关键维度、用户/从业者现实、竞争位置]
 
-## Cross-Axis Insight
-[history shaping position, strengths/weaknesses roots, contradictions, scenarios]
+## 横纵交汇洞察
+[历史如何塑造位置、优劣势根源、矛盾、未来情景]
 
-## Verdict
-[confirmed/likely/contested/not supported/unresolved claims, confidence]
+## 结论
+[已确认/较可能/有争议/不支持/无法判断，置信度]
 
-## Sources
-[metadata-rich citations with quality markers]
+## 来源
+[带元数据和质量标记的引用]
 ```
 
-## 8. Writing Standards
+## 8. 写作标准
 
-Write like a rigorous research report that a real decision-maker can finish.
+写成真正能服务决策的研究报告。
 
-- Use concrete details instead of generic consulting language.
-- Put facts before judgment; mark inference as inference.
-- Prefer causal explanation over list-making.
-- Do not hide uncertainty behind polished prose.
-- Avoid filler phrases such as "it is worth noting", "in today's fast-changing
-  world", "empower", "closed loop", "obviously", or "in summary".
-- Use specific names, dates, numbers, documents, and examples when available.
-- If something cannot be found, say it is not found.
+- 用具体细节，不用咨询式空话。
+- 先摆事实，再下判断；推断要标为推断。
+- 优先解释因果，不要只列清单。
+- 不要用漂亮话掩盖不确定性。
+- 避免“值得注意的是”“在当今快速变化的时代”“赋能”“闭环”“显然”“综上所述”等套话。
+- 能给具体名称、日期、数字、文档和例子，就不要泛泛而谈。
+- 如果某个信息找不到，就说没找到。
 
-## 9. Quality Checklist
+## 9. 质检清单
 
-Before final output, check:
+最终输出前检查：
 
-- Is there a clear vertical story with causal stages?
-- Are key events and decisions sourced?
-- Is the horizontal comparison set appropriate, not arbitrary?
-- Did user/operator reality get checked, not just official narrative?
-- Did at least one challenge path run against the main thesis?
-- Are source dates visible for time-sensitive claims?
-- Are important conclusions triangulated or explicitly marked as not
-  triangulated?
-- Does the cross-axis section produce new judgment instead of repeating earlier
-  sections?
-- Are confidence and "what would change the view" explicit?
-- Did the answer avoid inventing missing facts?
+- 纵轴是否是一条有因果阶段的故事？
+- 关键事件和决策是否有来源？
+- 横轴对比集合是否合理，而不是随便挑的？
+- 是否看了用户/从业者现实，而不只是官方叙事？
+- 是否至少跑过一条反证路径攻击主 thesis？
+- 对时效性强的声明，来源日期是否可见？
+- 重要结论是否经过三角验证，或明确标注无法三角验证？
+- 横纵交汇部分是否产生了新判断，而不是重复前文？
+- 置信度和“什么会改变判断”是否明确？
+- 是否避免了编造缺失事实？
