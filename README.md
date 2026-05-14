@@ -2,7 +2,7 @@
 
 A single standalone research skill for Claude Code / Codex.
 
-One installable skill, three reference packs, composable by purpose.
+One self-contained skill file, with all research modes and tactics consolidated.
 
 ```text
 FRAME → MAP → FRONTIER → DEEPEN → CHALLENGE → SYNTHESIZE
@@ -31,27 +31,18 @@ It is designed for work like:
 
 ## Architecture
 
-One core engine + three domain packs loaded on demand:
+One consolidated research skill:
 
 ```text
 researcher/
-├── SKILL.md                          ← core research engine
-└── references/
-    ├── business.md                   ← industry + company + career
-    ├── academic.md                   ← papers + benchmarks + technical lineage
-    └── claim-verification.md         ← cross-domain fact checking
+└── skills.md                         ← full research engine + playbooks
 ```
 
-**SKILL.md** contains the full research methodology: the six-phase cycle, source
-class taxonomy, frontier management, saturation rules, challenge discipline,
-tool usage, budget limits, and output templates.
-
-**Reference packs** contain domain-specific tactics: where to search, what
-queries to use, what to extract, domain-specific challenge paths, and output
-templates tuned for that research type.
-
-The agent loads SKILL.md for every task, then loads 1-2 reference packs based
-on what the research is about.
+**skills.md** contains the full research methodology: the six-phase cycle,
+quick/standard/deep modes, source-class taxonomy, citation and metadata rules,
+local-material handling, object-type playbooks, optional horizontal/vertical
+lenses, evidence ledger, challenge discipline, synthesis rules, and output
+templates.
 
 ## Core Design
 
@@ -81,10 +72,11 @@ Every strong thesis must run a challenge path before synthesis. The skill
 requires checking opposing incentives, adversarial sources, and behavioral
 evidence before concluding.
 
-### 4. Visible reasoning
+### 4. Adaptive output
 
-The skill writes `research-{topic}.md` and updates it throughout the run, so
-the research path is visible and auditable.
+The skill defaults to a concise chat answer. It creates a durable research
+artifact only when the user asks for one, provides an output path, or the work
+is too large to remain useful inline.
 
 ## Installation
 
@@ -97,18 +89,22 @@ git clone https://github.com/recomby-ai/researcher-skill.git
 Install to Claude Code:
 
 ```bash
-cp -R researcher-skill/researcher ~/.claude/skills/
+mkdir -p ~/.claude/skills/researcher
+cp researcher-skill/researcher/skills.md ~/.claude/skills/researcher/SKILL.md
 ```
 
 Install to Codex:
 
 ```bash
-cp -R researcher-skill/researcher ~/.codex/skills/
+mkdir -p ~/.codex/skills/researcher
+cp researcher-skill/researcher/skills.md ~/.codex/skills/researcher/SKILL.md
 ```
 
 ## Web Upload
 
-Zip the `researcher/` folder and upload. It is self-contained.
+If your runtime requires the entry file to be named `SKILL.md`, rename
+`researcher/skills.md` to `SKILL.md` before uploading. The file is otherwise
+self-contained.
 
 ## Example Prompts
 

@@ -2,7 +2,7 @@
 
 一个单独可安装的 research skill，给 Claude Code / Codex 用。
 
-一个核心引擎，三个领域包，按研究目的组装。
+一个自包含 skill 文件，所有研究模式和战术都合并在里面。
 
 ```text
 FRAME → MAP → FRONTIER → DEEPEN → CHALLENGE → SYNTHESIZE
@@ -31,24 +31,16 @@ FRAME → MAP → FRONTIER → DEEPEN → CHALLENGE → SYNTHESIZE
 
 ## 架构
 
-一个核心引擎 + 三个按需加载的领域包：
+一个合并后的 research skill：
 
 ```text
 researcher/
-├── SKILL.md                          ← 核心研究引擎
-└── references/
-    ├── business.md                   ← 行业 + 公司 + 职业
-    ├── academic.md                   ← 论文 + benchmark + 技术谱系
-    └── claim-verification.md         ← 跨领域事实核查
+└── skills.md                         ← 完整研究引擎 + playbooks
 ```
 
-**SKILL.md** 包含完整研究方法论：六阶段循环、证据分类体系、frontier 管理、饱和度规则、
-反证纪律、工具使用、预算控制、输出模板。
-
-**领域包** 包含特定领域的战术：去哪搜、用什么 query、提取什么信号、领域特有的
-challenge paths、以及该类研究的输出模板。
-
-Agent 每次都加载 SKILL.md，然后根据研究类型加载 1-2 个领域包。
+**skills.md** 包含完整研究方法论：六阶段循环、quick/standard/deep 模式、
+证据分类体系、引用和 metadata 规则、本地材料处理、对象类型 playbooks、
+可选横纵分析 lens、证据 ledger、反证纪律、综合判断规则和输出模板。
 
 ## 设计核心
 
@@ -77,9 +69,10 @@ Agent 每次都加载 SKILL.md，然后根据研究类型加载 1-2 个领域包
 每个强 thesis 必须先跑 challenge path 才能合成结论。skill 要求检查对立动机、
 对抗性来源、和行为证据之后才能下结论。
 
-### 4. 强制外显推理
+### 4. 自适应输出
 
-Skill 会写 `research-{topic}.md` 并在过程中持续更新，让研究路径可见可审计。
+Skill 默认给出简洁的 chat answer。只有在用户明确要求、提供输出路径，或任务太大不适合
+内联呈现时，才创建持久化研究文档。
 
 ## 安装
 
@@ -92,18 +85,21 @@ git clone https://github.com/recomby-ai/researcher-skill.git
 安装到 Claude Code：
 
 ```bash
-cp -R researcher-skill/researcher ~/.claude/skills/
+mkdir -p ~/.claude/skills/researcher
+cp researcher-skill/researcher/skills.md ~/.claude/skills/researcher/SKILL.md
 ```
 
 安装到 Codex：
 
 ```bash
-cp -R researcher-skill/researcher ~/.codex/skills/
+mkdir -p ~/.codex/skills/researcher
+cp researcher-skill/researcher/skills.md ~/.codex/skills/researcher/SKILL.md
 ```
 
 ## 网页版上传
 
-打包 `researcher/` 目录上传即可，自包含结构。
+如果运行环境要求入口文件名必须是 `SKILL.md`，上传前把 `researcher/skills.md`
+重命名为 `SKILL.md`。除此之外它是自包含文件。
 
 ## 使用示例
 
